@@ -1,0 +1,27 @@
+# Two Sum (Single-File Explanation)
+
+The Two Sum problem asks us to find two distinct indices in an integer array such that the sum of the elements at those indices equals a given target value. Each input is guaranteed to have exactly one solution, and the same element cannot be used more than once.
+
+To solve this efficiently, instead of checking all possible pairs (which would take O(n²) time), we use a hash map. While traversing the array from left to right, for each element we calculate the value needed to reach the target (target − current element). If this required value already exists in the hash map, we have found the solution and return the current index along with the stored index. If it does not exist, we store the current element with its index in the map and continue. This allows us to find the answer in a single pass.
+
+Pseudocode for this approach is as follows:
+- Create an empty hash map
+- Traverse the array
+- For each element, compute the complement (target − element)
+- If the complement exists in the map, return both indices
+- Otherwise, store the current element and its index
+- If no pair is found, return [-1, -1]
+
+Dry run of the algorithm:
+Given `nums = [2, 7, 11, 15]` and `target = 9`
+
+Start with an empty map.
+At index 0, value = 2 → required value = 7.  
+Map is empty, so store (2 → 0).
+
+At index 1, value = 7 → required value = 2.  
+2 already exists in the map with index 0, so we return indices `[1, 0]`.
+
+The algorithm runs in O(n) time because each element is processed once, and hash map operations take constant time on average. The space complexity is O(n) due to the additional hash map.
+
+This approach is optimal and commonly used in coding interviews and competitive programming.
