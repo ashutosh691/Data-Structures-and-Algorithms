@@ -1,0 +1,49 @@
+# Longest Substring Without Repeating Characters
+
+The problem is to determine the length of the longest substring of a given string that contains no repeating characters. A substring is a contiguous sequence of characters, and the string can contain letters, digits, symbols, or spaces.
+
+For example, if the input string is `"abcabcbb"`, the longest substring without repeating characters is `"abc"`, so the output is `3`.
+
+The intuition behind this solution is to keep track of the current substring that contains only unique characters. A vector is used to store the characters of the current substring. As we iterate through the string character by character, we check whether the current character already exists in the vector. If a duplicate character is found, all characters from the beginning of the vector up to and including the repeated character are removed. This ensures that the substring always contains unique characters. The current character is then added, and the maximum length is updated.
+
+This approach dynamically maintains a valid substring without duplicates and grows or shrinks it as required.
+
+Pseudocode:
+- Initialize an empty vector to store characters of the current substring
+- Initialize maxLen = 0
+- Traverse the string from left to right
+- For each character:
+  - Check if it already exists in the vector
+  - If found, erase elements from the beginning up to the repeated character
+  - Add the current character to the vector
+  - Update maxLen as the maximum of its current value and the vector size
+- Return maxLen
+
+Dry Run:
+
+Input:
+s = "abcabcbb"
+
+
+Step-by-step execution:
+- Start with an empty vector `[]`
+- Read 'a' → not present → `[a]`, maxLen = 1
+- Read 'b' → not present → `[a, b]`, maxLen = 2
+- Read 'c' → not present → `[a, b, c]`, maxLen = 3
+- Read 'a' → duplicate found → remove `[a]`, vector becomes `[b, c]`, add 'a' → `[b, c, a]`
+- Read 'b' → duplicate found → remove `[b]`, vector becomes `[c, a]`, add 'b' → `[c, a, b]`
+- Read 'c' → duplicate found → remove `[c]`, vector becomes `[a, b]`, add 'c' → `[a, b, c]`
+- Read 'b' → duplicate found → remove `[a, b]`, vector becomes `[c]`, add 'b' → `[c, b]`
+- Read 'b' → duplicate found → remove `[c, b]`, vector becomes `[]`, add 'b' → `[b]`
+
+Final result:
+maxLen = 3
+
+
+Time Complexity:
+The worst-case time complexity is O(n²) because for each character, the vector may be scanned and elements may be erased.
+
+Space Complexity:
+The space complexity is O(n) since the vector stores the current substring without repeating characters.
+
+This solution is easy to understand and works well for small to moderate input sizes, though it can be optimized further using a sliding window and hash-based indexing for better performance.
