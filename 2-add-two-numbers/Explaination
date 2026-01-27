@@ -1,0 +1,53 @@
+# Add Two Numbers (Linked List)
+
+The problem is to add two non-negative numbers represented as singly linked lists. Each node contains a single digit, and the digits are stored in reverse order. The task is to return the sum as a linked list in the same reverse-order format.
+
+For example, if the first number is represented as 2 → 4 → 3 and the second as 5 → 6 → 4, they represent the numbers 342 and 465 respectively. Their sum is 807, so the output should be 7 → 0 → 8.
+
+The idea behind the solution is to simulate manual addition digit by digit, while handling carry properly. Since the digits are already stored in reverse order, we can start adding from the head of both linked lists. However, in this implementation, the digits of the first list are first stored in a queue. This allows sequential access to its values while iterating through the second list.
+
+We initialize a dummy node to simplify the creation of the result list. A carry variable is used to store overflow during addition. In each step, we take one digit from the queue (if available) and one digit from the second linked list (if available), add them along with the carry, and create a new node with the last digit of the result. The carry is updated accordingly. After processing all digits, if a carry remains, it is added as a new node at the end.
+
+The logic of the algorithm can be summarized as follows:
+- Store all digits of the first linked list in a queue
+- Traverse the second linked list while the queue is not empty or nodes remain
+- Add corresponding digits along with carry
+- Create new nodes for the result list
+- Append remaining carry if present
+
+Pseudocode:
+- Initialize a queue and push all values from the first list into it
+- Create a dummy node and a pointer for building the result list
+- Set carry = 0
+- While the second list is not null or the queue is not empty:
+  - Extract a digit from the queue if available
+  - Extract a digit from the second list if available
+  - Compute sum = digit1 + digit2 + carry
+  - Update carry = sum / 10
+  - Create a new node with value sum % 10
+- If carry remains, create a new node with carry
+- Return dummy.next as the result
+
+Dry run example:
+
+Input:
+l1 = 2 → 4 → 3  
+l2 = 5 → 6 → 4  
+
+Queue after reading l1:
+[2, 4, 3]
+
+Step-by-step execution:
+- Step 1: val1 = 2, val2 = 5, carry = 0 → sum = 7  
+  Result list: 7
+- Step 2: val1 = 4, val2 = 6, carry = 0 → sum = 10  
+  Result list: 7 → 0, carry = 1
+- Step 3: val1 = 3, val2 = 4, carry = 1 → sum = 8  
+  Result list: 7 → 0 → 8
+
+Final Output:
+7 → 0 → 8
+
+The time complexity of this approach is O(n + m), where n and m are the lengths of the two linked lists. The space complexity is O(n) due to the use of the queue.
+
+This solution correctly handles different lengths of linked lists and carry propagation, making it a reliable approach for the Add Two Numbers problem.
