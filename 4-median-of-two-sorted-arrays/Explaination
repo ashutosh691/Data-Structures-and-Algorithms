@@ -1,0 +1,93 @@
+# Median of Two Sorted Arrays
+
+The problem is to find the median of two sorted arrays `nums1` and `nums2`. The overall time complexity must be **O(log(min(n1, n2)))**, where `n1` and `n2` are the sizes of the two arrays. The arrays may have different lengths, and they are already sorted.
+
+If the total number of elements is odd, the median is the middle element.  
+If the total number of elements is even, the median is the average of the two middle elements.
+
+Example:
+nums1 = [1, 3]  
+nums2 = [2]  
+Output = 2.0
+
+---
+
+### Intuition
+
+Instead of merging the two arrays (which would take linear time), we use **binary search** on the smaller array. The goal is to partition both arrays such that:
+
+- The left half contains exactly half of the total elements
+- All elements in the left half are less than or equal to all elements in the right half
+
+We choose a partition in the first array and automatically determine the corresponding partition in the second array. Then we check if the partition is valid by comparing border elements. If not, we adjust the binary search range accordingly.
+
+This approach ensures logarithmic time complexity.
+
+---
+
+### Pseudocode
+
+- If nums1 is larger than nums2, swap them
+- Let total = n1 + n2
+- Let leftCount = (total + 1) / 2
+- Perform binary search on nums1:
+  - mid1 = partition index in nums1
+  - mid2 = leftCount − mid1
+  - Determine left and right boundary values:
+    - l1, r1 from nums1
+    - l2, r2 from nums2
+  - If l1 ≤ r2 and l2 ≤ r1:
+    - If total is odd, median = max(l1, l2)
+    - Else median = (max(l1, l2) + min(r1, r2)) / 2
+  - If l1 > r2, move left
+  - Else move right
+
+---
+
+### Dry Run
+
+Input:
+nums1 = [1, 3]
+nums2 = [2]
+
+Ensure nums1 is smaller:
+
+nums1 = [2]
+nums2 = [1, 3]
+
+
+Total elements = 3  
+Left partition size = 2  
+
+Binary Search Steps:
+
+- mid1 = 0 → mid2 = 2
+  - l1 = -∞, r1 = 2
+  - l2 = 3, r2 = +∞
+  - l2 > r1 → move right
+
+- mid1 = 1 → mid2 = 1
+  - l1 = 2, r1 = +∞
+  - l2 = 1, r2 = 3
+  - Valid partition found
+
+Since total is odd:
+median = max(2, 1) = 2
+
+
+Output:
+2.0
+
+
+---
+
+### Time and Space Complexity
+
+- **Time Complexity:** O(log(min(n1, n2)))
+- **Space Complexity:** O(1)
+
+---
+
+### Conclusion
+
+This binary search partition-based approach efficiently finds the median without merging the arrays. It is optimal, elegant, and frequently asked in high-level technical interviews.
