@@ -1,0 +1,49 @@
+# Sliding Window Maximum
+
+The problem is to find the maximum value in every contiguous subarray (window) of size `k` in a given integer array. As the window slides one position to the right at each step, we need to report the maximum element present in that window.
+
+For example, given the array `[1, 3, -1, -3, 5, 3, 6, 7]` and `k = 3`, the output should be `[3, 3, 5, 5, 6, 7]`.
+
+The key idea behind this solution is to use a **deque (double-ended queue)** to store indices of array elements in such a way that:
+- The deque always maintains elements in decreasing order of their values
+- The front of the deque always holds the index of the maximum element for the current window
+
+While iterating through the array, we first remove indices from the front of the deque if they are outside the current window. Then we remove indices from the back of the deque if the corresponding values are smaller than or equal to the current element, because they can never be the maximum for any future window. After inserting the current index, if the window size has reached `k`, the element at the front of the deque is added to the result.
+
+This method efficiently processes each element exactly once.
+
+Pseudocode:
+- Initialize an empty deque and result array
+- Traverse the array with index `i`
+- Remove front index if it is outside the current window
+- Remove back indices while their values are less than or equal to the current value
+- Push current index to the deque
+- If `i >= k - 1`, append the value at the front index of the deque to the result
+- Return the result array
+
+Dry Run:
+
+Input:
+nums = [1, 3, -1, -3, 5, 3, 6, 7]
+k = 3
+
+Step-by-step execution:
+- i = 0 → deque = [0]
+- i = 1 → remove 0 (1 < 3) → deque = [1]
+- i = 2 → deque = [1, 2] → window formed → max = 3
+- i = 3 → remove index 0 (out of window) → deque = [1, 2, 3] → max = 3
+- i = 4 → remove -3 and -1 → deque = [4] → max = 5
+- i = 5 → deque = [4, 5] → max = 5
+- i = 6 → remove 3 and 5 → deque = [6] → max = 6
+- i = 7 → remove 6 → deque = [7] → max = 7
+
+Final Output:
+[3, 3, 5, 5, 6, 7]
+
+Time Complexity:
+The time complexity is O(n) because each element is inserted and removed from the deque at most once.
+
+Space Complexity:
+The space complexity is O(k) since the deque stores at most `k` indices.
+
+This approach is optimal and widely used in problems involving sliding windows and real-time maximum or minimum queries.
