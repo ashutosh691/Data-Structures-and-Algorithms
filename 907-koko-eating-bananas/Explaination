@@ -1,0 +1,49 @@
+# Koko Eating Bananas
+
+The problem is to determine the minimum integer speed at which Koko can eat all the banana piles within `h` hours. Each pile contains a certain number of bananas, and in one hour Koko can eat at most `k` bananas from a single pile. If a pile has fewer than `k` bananas, she eats the entire pile in that hour.
+
+For example, given `piles = [3, 6, 7, 11]` and `h = 8`, the minimum eating speed is `4`.
+
+The intuition behind this solution is to apply **binary search on the answer**. The minimum possible eating speed is `1`, and the maximum possible eating speed is the size of the largest pile. For any chosen speed `k`, we can calculate how many hours it would take to finish all piles. If the total time exceeds `h`, the speed is too slow; otherwise, it is fast enough, and we try to minimize it.
+
+This works because as the eating speed increases, the total hours required decreases monotonically, making binary search applicable.
+
+Pseudocode:
+- Set `left = 1` and `right = maximum value in piles`
+- While `left <= right`:
+  - Compute `mid` as the candidate eating speed
+  - Calculate total hours required using:
+    - hours += ceil(piles[i] / mid)
+  - If total hours ≤ `h`, reduce the search space to the left
+  - Else, increase the search space to the right
+- Return `left` as the minimum valid speed
+
+Dry Run:
+
+Input:
+piles = [3, 6, 7, 11]
+h = 8
+
+Binary search steps:
+
+- left = 1, right = 11 → mid = 6  
+  hours = 1 + 1 + 2 + 2 = 6 ≤ 8 → speed is valid → move left
+
+- left = 1, right = 5 → mid = 3  
+  hours = 1 + 2 + 3 + 4 = 10 > 8 → speed too slow → move right
+
+- left = 4, right = 5 → mid = 4  
+  hours = 1 + 2 + 2 + 3 = 8 ≤ 8 → valid → move left
+
+- left = 4, right = 3 → stop
+
+Final Answer:
+4
+
+Time Complexity:
+The time complexity is O(n log m), where `n` is the number of piles and `m` is the maximum pile size.
+
+Space Complexity:
+The space complexity is O(1) since no extra space proportional to input size is used.
+
+This binary search approach is efficient, clean, and widely used in optimization problems where the answer lies in a range.
