@@ -5,7 +5,7 @@ public:
         while(left <= right) {
             int mid = left + (right - left) / 2;
             long long temp = 0;
-            for(int i = 0; i < n; ++i) temp += ceil(piles[i] / (double)mid);
+            for(int i = 0; i < n; ++i) temp += (piles[i] + mid - 1) / mid;
             if(temp <= h) right = mid - 1;
             else left = mid + 1;
         }
