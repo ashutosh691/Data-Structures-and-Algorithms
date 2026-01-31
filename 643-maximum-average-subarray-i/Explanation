@@ -1,0 +1,57 @@
+# Maximum Average Subarray I
+
+The problem is to find the maximum average value of any contiguous subarray of length `k` in a given integer array `nums`. You are guaranteed that the array contains at least `k` elements, and the answer should be returned as a floating-point value.
+
+For example, if `nums = [1, 12, -5, -6, 50, 3]` and `k = 4`, the subarray `[12, -5, -6, 50]` has the maximum average, which is `12.75`.
+
+The intuition behind this solution is to use the **sliding window technique**. Instead of calculating the sum of every possible subarray of length `k` from scratch (which would be inefficient), we maintain a running sum of a window of size `k`. As the window slides forward by one position, we subtract the element leaving the window and add the new element entering the window. This allows us to update the sum in constant time.
+
+This approach works efficiently because each element is added and removed exactly once, ensuring linear time complexity.
+
+The algorithm works as follows. We maintain two pointers: `j` for the left boundary of the window and `i` for the right boundary. We keep a running sum of the elements inside the window. Whenever the window size exceeds `k`, we remove the leftmost element. When the window size becomes exactly `k`, we compute the average and update the maximum average found so far.
+
+Pseudocode:
+Initialize j = 0  
+Initialize sum = 0  
+Initialize ans = very small value  
+For i from 0 to n - 1  
+If window size exceeds k  
+Subtract nums[j] from sum  
+Increment j  
+Add nums[i] to sum  
+If window size is exactly k  
+Update ans = max(ans, sum / k)  
+Return ans  
+
+Dry Run:
+
+Input:
+nums = [1, 12, -5, -6, 50, 3]  
+k = 4  
+
+Step-by-step execution:
+
+- i = 0 → sum = 1  
+- i = 1 → sum = 13  
+- i = 2 → sum = 8  
+- i = 3 → sum = 2 → window size = 4  
+  average = 2 / 4 = 0.5 → ans = 0.5  
+
+- i = 4 → remove nums[0] = 1 → sum = 1  
+  add nums[4] = 50 → sum = 51  
+  average = 51 / 4 = 12.75 → ans = 12.75  
+
+- i = 5 → remove nums[1] = 12 → sum = 39  
+  add nums[5] = 3 → sum = 42  
+  average = 42 / 4 = 10.5 → ans remains 12.75  
+
+Final Answer:
+12.75
+
+Time Complexity:
+The time complexity is O(n) because the array is traversed once.
+
+Space Complexity:
+The space complexity is O(1) since only a few variables are used.
+
+This sliding window approach is optimal and commonly used in problems involving fixed-size subarrays and averages.
