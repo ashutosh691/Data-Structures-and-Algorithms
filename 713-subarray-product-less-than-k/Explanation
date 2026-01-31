@@ -1,0 +1,62 @@
+# Subarray Product Less Than K
+
+The problem is to count the number of contiguous subarrays where the product of all elements in the subarray is strictly less than a given integer `k`. You are given an array of positive integers `nums` and an integer `k`.
+
+For example, if `nums = [10, 5, 2, 6]` and `k = 100`, the valid subarrays are:
+[10], [5], [2], [6], [5,2], [2,6]
+So the answer is `8`.
+
+The intuition behind this solution is based on the **sliding window technique**. Since all numbers in the array are positive, increasing the window size increases the product, and shrinking the window decreases the product. This monotonic behavior allows us to efficiently maintain a window whose product is always less than `k`.
+
+We maintain a window using two pointers. The right pointer expands the window by multiplying the current element into the product. If the product becomes greater than or equal to `k`, we shrink the window from the left by dividing out elements until the product is again less than `k`. At each step, once the window is valid, all subarrays ending at the current right index and starting anywhere between the left and right pointers are valid.
+
+The algorithm works as follows. We initialize a product variable `p = 1` and a left pointer `j = 0`. As we iterate through the array with index `i`, we multiply `nums[i]` into `p`. While `p` is greater than or equal to `k`, we divide `p` by `nums[j]` and move the left pointer forward. After the window becomes valid again, the number of valid subarrays ending at index `i` is `(i - j + 1)`, which we add to the answer.
+
+A special case occurs when `k <= 1`. Since all elements are positive integers, no product can be less than 1, so the answer is `0`.
+
+Pseudocode:
+If k ≤ 1, return 0  
+Initialize p = 1, j = 0, ans = 0  
+For i from 0 to n - 1  
+Multiply p by nums[i]  
+While p ≥ k  
+Divide p by nums[j]  
+Increment j  
+Add (i − j + 1) to ans  
+Return ans  
+
+Dry Run:
+
+Input:
+nums = [10, 5, 2, 6]  
+k = 100  
+
+Step-by-step execution:
+
+- i = 0 → p = 10  
+  p < 100 → valid window  
+  ans += 1 → ans = 1  
+
+- i = 1 → p = 50  
+  p < 100 → valid window  
+  ans += 2 → ans = 3  
+
+- i = 2 → p = 100  
+  p ≥ 100 → shrink window  
+  divide by nums[0] = 10 → p = 10, j = 1  
+  ans += 2 → ans = 5  
+
+- i = 3 → p = 60  
+  p < 100 → valid window  
+  ans += 3 → ans = 8  
+
+Final Answer:
+8
+
+Time Complexity:
+The time complexity is O(n) because each element enters and leaves the sliding window at most once.
+
+Space Complexity:
+The space complexity is O(1) since only constant extra space is used.
+
+This sliding window approach is optimal and widely used in subarray counting problems involving multiplicative constraints.
