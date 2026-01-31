@@ -1,0 +1,56 @@
+# Find Smallest Letter Greater Than Target
+
+The problem is to find the smallest character in a sorted array of letters that is strictly greater than a given target character. The array is considered circular, meaning if no character is greater than the target, we return the first character of the array.
+
+You are given a sorted array `letters` containing lowercase English letters and a character `target`.
+
+For example, if `letters = ['c','f','j']` and `target = 'd'`, the answer is `'f'`.  
+If `target = 'j'`, since there is no letter greater than `'j'`, the answer is `'c'`.
+
+The intuition behind this solution is very straightforward. Since the array is already sorted, we can simply scan from left to right and return the first letter that is greater than the target. If we finish scanning the array and do not find any such letter, it means the target is greater than or equal to all characters in the array. Because the array is circular, the correct answer in this case is the first character.
+
+This solution prioritizes simplicity and clarity. Although a binary search approach can be used to optimize the solution, a linear scan works perfectly fine for understanding the problem logic.
+
+The algorithm works as follows. We iterate through each character in the array. As soon as we find a character that is strictly greater than the target, we return it. If the loop finishes without finding any valid character, we return the first character of the array.
+
+Pseudocode:
+For each character ch in letters  
+If ch > target  
+Return ch  
+Return letters[0]  
+
+Dry Run:
+
+Input:
+letters = ['c', 'f', 'j']  
+target = 'd'
+
+Step-by-step execution:
+- ch = 'c' → 'c' is not greater than 'd' → continue  
+- ch = 'f' → 'f' is greater than 'd' → return 'f'  
+
+Output:
+'f'
+
+Another case:
+
+Input:
+letters = ['c', 'f', 'j']  
+target = 'j'
+
+Step-by-step execution:
+- 'c' ≤ 'j' → continue  
+- 'f' ≤ 'j' → continue  
+- 'j' ≤ 'j' → continue  
+No character found greater than target → return letters[0]
+
+Output:
+'c'
+
+Time Complexity:
+The time complexity is O(n) because the array is traversed once.
+
+Space Complexity:
+The space complexity is O(1) since no extra space is used.
+
+This solution is simple, easy to understand, and correctly handles the circular nature of the problem.
