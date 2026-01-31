@@ -1,0 +1,69 @@
+# Remove Duplicates from Sorted Linked List
+
+The problem is to remove duplicate values from a **sorted singly linked list** such that each element appears only once. Since the list is already sorted, all duplicate values appear consecutively. The task is to modify the list in-place and return the head of the updated list.
+
+For example, if the input linked list is:
+1 → 1 → 2 → 3 → 3 → 4
+
+The output should be:
+1 → 2 → 3 → 4
+
+The intuition behind this solution relies on the fact that the linked list is sorted. Because of this, duplicates will always be adjacent. We can iterate through the list and only keep nodes whose value is different from the last unique value we stored.
+
+To simplify edge cases (especially when duplicates appear at the beginning), a **dummy node** is used. A pointer `temp` is used to build the resulting list containing only unique elements. Another pointer `head` is used to traverse the original list. Whenever we find a node whose value is different from the last stored unique value, we link it to the result list.
+
+At the end, we explicitly terminate the list to avoid leftover links.
+
+The algorithm works as follows. We first check if the list is empty or has only one node. If so, we return it directly. Otherwise, we create a dummy node pointing to the head. We skip all initial duplicate values so that `head` starts from the first unique node. Then, as we traverse the list, whenever the current node’s value differs from the last unique node’s value, we connect it to the result list. Finally, we set the next pointer of the last unique node to `NULL`.
+
+Pseudocode:
+If head is null or head.next is null  
+Return head  
+
+Create dummy node  
+dummy.next = head  
+temp = dummy.next  
+
+While head exists and head.val == temp.val  
+Move head forward  
+
+While head exists  
+If head.val != temp.val  
+temp.next = head  
+temp = temp.next  
+Move head forward  
+
+Set temp.next = NULL  
+Return dummy.next  
+
+Dry Run:
+
+Input:
+1 → 1 → 2 → 3 → 3 → 4
+
+Step-by-step execution:
+- dummy → 1 → 1 → 2 → 3 → 3 → 4  
+- temp = first 1  
+- Skip duplicates of 1 → head moves to 2  
+
+Now traverse:
+- head = 2 ≠ temp.val(1) → link 2  
+  Result: 1 → 2  
+- head = 3 ≠ 2 → link 3  
+  Result: 1 → 2 → 3  
+- head = 3 == 3 → skip  
+- head = 4 ≠ 3 → link 4  
+  Result: 1 → 2 → 3 → 4  
+
+Terminate list.
+
+Final Output:
+1 → 2 → 3 → 4
+
+Time Complexity:
+The time complexity is O(n) since the linked list is traversed once.
+
+Space Complexity:
+The space complexity is O(1) because no extra data structures are used apart from pointers.
+
+This solution efficiently removes duplicates from a sorted linked list while preserving the original order of unique elements.
