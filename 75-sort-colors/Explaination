@@ -1,0 +1,56 @@
+# Sort Colors (Dutch National Flag Problem)
+
+The problem is to sort an array that contains only three distinct values: 0, 1, and 2. These values represent colors (red, white, and blue respectively). The goal is to rearrange the array so that all 0s appear first, followed by all 1s, and then all 2s. The sorting must be done in-place without using any built-in sorting algorithms.
+
+For example, if the input array is [2, 0, 2, 1, 1, 0], the expected output is [0, 0, 1, 1, 2, 2].
+
+The intuition behind this solution is based on the Dutch National Flag algorithm. The idea is to divide the array into regions using three pointers. The pointer `low` marks the position where the next 0 should be placed, `mid` is used to traverse the array, and `high` marks the position where the next 2 should be placed. As we traverse the array, elements are swapped into their correct regions depending on their value. This ensures that the array gets sorted in a single pass.
+
+The algorithm works as follows. We initialize three pointers: `low = 0`, `mid = 0`, and `high = n - 1`. While `mid` is less than or equal to `high`, we examine the value at `nums[mid]`. If it is 0, we swap it with the element at `low` and increment both `low` and `mid`. If it is 1, it is already in the correct position, so we simply move `mid` forward. If it is 2, we swap it with the element at `high` and decrement `high`, without incrementing `mid` because the swapped element still needs to be checked.
+
+Pseudocode:
+Initialize low = 0, mid = 0, high = n - 1  
+While mid ≤ high  
+If nums[mid] == 0  
+Swap nums[mid] and nums[low]  
+Increment low and mid  
+Else if nums[mid] == 1  
+Increment mid  
+Else  
+Swap nums[mid] and nums[high]  
+Decrement high  
+
+Dry Run:
+
+Input array: [2, 0, 2, 1, 1, 0]
+
+Initial state:  
+low = 0, mid = 0, high = 5  
+array = [2, 0, 2, 1, 1, 0]
+
+Step 1: nums[mid] = 2  
+Swap with nums[high] → [0, 0, 2, 1, 1, 2]  
+high = 4
+
+Step 2: nums[mid] = 0  
+Swap with nums[low] → [0, 0, 2, 1, 1, 2]  
+low = 1, mid = 1
+
+Step 3: nums[mid] = 0  
+Swap with nums[low] → [0, 0, 2, 1, 1, 2]  
+low = 2, mid = 2
+
+Step 4: nums[mid] = 2  
+Swap with nums[high] → [0, 0, 1, 1, 2, 2]  
+high = 3
+
+Step 5: nums[mid] = 1  
+mid = 3
+
+Step 6: nums[mid] = 1  
+mid = 4 (loop ends)
+
+Final sorted array:  
+[0, 0, 1, 1, 2, 2]
+
+The time complexity of this algorithm is O(n) because each element is processed at most once. The space complexity is O(1) since the sorting is done in-place using only constant extra space. This approach is optimal and commonly used in interview questions involving array partitioning.
