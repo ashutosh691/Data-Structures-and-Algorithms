@@ -1,0 +1,49 @@
+# Max Consecutive Ones
+
+The problem is to find the maximum number of consecutive 1s in a binary array. You are given an array `nums` consisting only of 0s and 1s, and you need to determine the length of the longest contiguous sequence of 1s.
+
+For example, if the input array is `[1, 1, 0, 1, 1, 1]`, the longest sequence of consecutive 1s is `3`.
+
+The intuition behind this solution is very simple. We traverse the array once and keep a counter that tracks the current streak of consecutive 1s. Whenever we encounter a 1, we increase the counter. When we encounter a 0, the streak breaks, so we update the maximum value found so far and reset the counter. At the end of the traversal, we perform one final comparison to ensure the last streak is counted.
+
+This approach is efficient because it processes each element exactly once and does not require any additional data structures.
+
+The algorithm works as follows. We initialize two variables: `ans` to store the maximum consecutive 1s found so far, and `c` to count the current consecutive 1s. We iterate through the array, incrementing `c` when the element is 1 and resetting it to 0 when the element is 0. After the loop, we return the maximum value.
+
+Pseudocode:
+Initialize ans = 0, c = 0  
+For i from 0 to n - 1  
+If nums[i] == 1  
+Increment c  
+Else  
+Update ans = max(ans, c)  
+Reset c = 0  
+Update ans = max(ans, c)  
+Return ans  
+
+Dry Run:
+
+Input:
+nums = [1, 1, 0, 1, 1, 1]
+
+Step-by-step execution:
+- i = 0 → nums[i] = 1 → c = 1, ans = 0  
+- i = 1 → nums[i] = 1 → c = 2, ans = 0  
+- i = 2 → nums[i] = 0 → ans = 2, c = 0  
+- i = 3 → nums[i] = 1 → c = 1, ans = 2  
+- i = 4 → nums[i] = 1 → c = 2, ans = 2  
+- i = 5 → nums[i] = 1 → c = 3, ans = 2  
+
+Final update:
+ans = max(2, 3) = 3
+
+Final Output:
+3
+
+Time Complexity:
+The time complexity is O(n) since the array is traversed once.
+
+Space Complexity:
+The space complexity is O(1) because only constant extra space is used.
+
+This solution is optimal and commonly used in basic array and counting problems.
