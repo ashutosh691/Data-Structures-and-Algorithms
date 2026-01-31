@@ -1,0 +1,71 @@
+# Subarrays With K Distinct Integers
+
+The problem is to count the number of subarrays in an integer array `nums` that contain exactly `k` distinct integers. A subarray is a contiguous part of the array, and the order of elements must be preserved.
+
+For example, if `nums = [1, 2, 1, 2, 3]` and `k = 2`, the subarrays that contain exactly 2 distinct integers are:
+[1,2], [2,1], [1,2], [2,1,2], [1,2,3]
+So the answer is 7.
+
+The key intuition behind this solution is to break the problem into a simpler one. Instead of directly counting subarrays with exactly `k` distinct elements, we compute:
+- Number of subarrays with at most `k` distinct elements
+- Number of subarrays with at most `k - 1` distinct elements
+
+The difference between these two gives the number of subarrays with exactly `k` distinct elements.
+
+This works because:
+Subarrays with exactly k distinct = (subarrays with ≤ k distinct) − (subarrays with ≤ k−1 distinct)
+
+To compute the number of subarrays with at most `k` distinct elements, we use the sliding window technique with two pointers and a hash map. The map keeps track of the frequency of elements inside the current window. We expand the window using the right pointer and shrink it from the left whenever the number of distinct elements exceeds `k`.
+
+At each step, once the window is valid (contains at most `k` distinct elements), all subarrays ending at the current right index and starting from any index between `j` and `i` are valid. The number of such subarrays is `(i - j + 1)`.
+
+Pseudocode:
+Function atMost(nums, k):
+Initialize empty hash map
+Initialize j = 0, ans = 0
+For i from 0 to n - 1:
+Add nums[i] to map
+While map size > k:
+Decrease frequency of nums[j]
+If frequency becomes 0, remove it from map
+Increment j
+Add (i - j + 1) to ans
+Return ans
+
+Main function:
+Return atMost(nums, k) − atMost(nums, k - 1)
+
+Dry Run:
+
+Input:
+nums = [1, 2, 1, 2, 3]
+k = 2
+
+First, compute atMost(2):
+
+i = 0 → window = [1], distinct = 1 → ans += 1 → ans = 1  
+i = 1 → window = [1,2], distinct = 2 → ans += 2 → ans = 3  
+i = 2 → window = [1,2,1], distinct = 2 → ans += 3 → ans = 6  
+i = 3 → window = [1,2,1,2], distinct = 2 → ans += 4 → ans = 10  
+i = 4 → window = [1,2,1,2,3], distinct = 3 → shrink window  
+After shrinking → window = [2,3], distinct = 2 → ans += 2 → ans = 12  
+
+So, atMost(2) = 12
+
+Now compute atMost(1):
+
+Valid subarrays with at most 1 distinct element are:
+[1], [2], [1], [2], [3]
+
+So, atMost(1) = 5
+
+Final Answer:
+exactly k distinct = 12 − 5 = 7
+
+Time Complexity:
+The time complexity is O(n) because each element is added and removed from the sliding window at most once.
+
+Space Complexity:
+The space complexity is O(k) due to the hash map storing at most `k` distinct elements.
+
+This sliding window approach is efficient, elegant, and commonly used in advanced array and substring problems.
