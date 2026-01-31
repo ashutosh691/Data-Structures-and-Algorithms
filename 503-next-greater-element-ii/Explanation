@@ -1,0 +1,61 @@
+# Next Greater Element II (Circular Array)
+
+The problem is to find the next greater element for each element in a circular array. For a given element, the next greater element is the first element encountered while moving to the right (wrapping around to the beginning if needed) that is strictly greater than the current element. If no such element exists, the answer for that element is `-1`.
+
+The array is considered **circular**, meaning after the last index, we continue searching from the first index.
+
+For example, if the input array is `[1, 2, 1]`, the output should be `[2, -1, 2]`.
+
+The intuition behind this solution is to directly simulate the definition of a circular array. For each element at index `i`, we start checking elements from index `i + 1`. If we reach the end of the array, we wrap around to the beginning using modulo arithmetic. We continue this process until either we find a greater element or we come back to the starting index `i`. If a greater element is found, we record it; otherwise, we store `-1`.
+
+This approach is straightforward and easy to understand, especially for beginners, as it closely follows the problem statement without using advanced data structures.
+
+The algorithm works as follows. For each index `i`, we initialize a pointer `j` to `i + 1`. If `j` reaches the end of the array, it is reset to `0` to simulate circular traversal. We then keep moving `j` forward (using modulo) until either a greater element is found or `j` becomes equal to `i` again. A boolean flag is used to track whether a greater element was found.
+
+Pseudocode:
+Initialize an empty result array  
+For each index i from 0 to n - 1  
+Set found = false  
+Set j = (i + 1) % n  
+While j != i  
+If nums[j] > nums[i]  
+Add nums[j] to result  
+Set found = true  
+Break  
+Move j to (j + 1) % n  
+If found is false  
+Add -1 to result  
+Return result  
+
+Dry Run:
+
+Input:
+nums = [1, 2, 1]
+
+Step-by-step execution:
+
+- i = 0 → nums[i] = 1  
+  j = 1 → nums[j] = 2 > 1 → next greater found  
+  result = [2]
+
+- i = 1 → nums[i] = 2  
+  j = 2 → nums[j] = 1 < 2  
+  j = 0 → nums[j] = 1 < 2  
+  j returns to i → no greater element  
+  result = [2, -1]
+
+- i = 2 → nums[i] = 1  
+  j = 0 → nums[j] = 1 < 1  
+  j = 1 → nums[j] = 2 > 1 → next greater found  
+  result = [2, -1, 2]
+
+Final Output:
+[2, -1, 2]
+
+Time Complexity:
+The time complexity is O(n²) in the worst case because for each element, we may traverse the entire array.
+
+Space Complexity:
+The space complexity is O(n) for storing the result array.
+
+This solution is simple and intuitive but can be optimized to O(n) time using a monotonic stack approach.
