@@ -1,0 +1,56 @@
+# Max Consecutive Ones III
+
+The problem is to find the maximum number of consecutive 1s in a binary array if you are allowed to flip at most `k` zeros to ones. You are given an array `nums` consisting only of 0s and 1s, and an integer `k` representing the maximum number of zeros that can be flipped.
+
+For example, if `nums = [1,1,1,0,0,0,1,1,1,1,0]` and `k = 2`, the longest subarray containing at most 2 zeros has length `6`.
+
+The intuition behind this solution is to use the **sliding window technique**. We maintain a window that always contains at most `k` zeros. The window is expanded by moving the right pointer forward. If the number of zeros exceeds `k`, we shrink the window from the left until the condition becomes valid again. At every step, the size of the valid window represents a possible answer.
+
+This approach works efficiently because both pointers move forward and never move backward, ensuring linear time complexity.
+
+The algorithm works as follows. We initialize two pointers: `j` (left boundary) and `i` (right boundary). We also maintain a counter `zeroCount` to track how many zeros are currently inside the window. As we iterate through the array using `i`, we increment `zeroCount` whenever we encounter a zero. If `zeroCount` becomes greater than `k`, we move the left pointer `j` forward and reduce `zeroCount` when a zero leaves the window. At each valid window, we update the maximum window size.
+
+Pseudocode:
+Initialize j = 0, zeroCount = 0, ans = 0  
+For i from 0 to n - 1  
+If nums[i] == 0  
+Increment zeroCount  
+While zeroCount > k  
+If nums[j] == 0  
+Decrement zeroCount  
+Increment j  
+Update ans = max(ans, i - j + 1)  
+Return ans  
+
+Dry Run:
+
+Input:
+nums = [1,1,1,0,0,0,1,1,1,1,0]  
+k = 2  
+
+Step-by-step execution:
+
+- i = 0 → window = [1], zeroCount = 0 → ans = 1  
+- i = 1 → window = [1,1], zeroCount = 0 → ans = 2  
+- i = 2 → window = [1,1,1], zeroCount = 0 → ans = 3  
+- i = 3 → window = [1,1,1,0], zeroCount = 1 → ans = 4  
+- i = 4 → window = [1,1,1,0,0], zeroCount = 2 → ans = 5  
+- i = 5 → window = [1,1,1,0,0,0], zeroCount = 3 (invalid)  
+  Shrink window → j moves to make zeroCount = 2  
+  window = [1,0,0,0]  
+- i = 6 → window = [0,0,1], zeroCount = 2 → ans = 5  
+- i = 7 → window = [0,1,1], zeroCount = 2 → ans = 5  
+- i = 8 → window = [1,1,1], zeroCount = 2 → ans = 5  
+- i = 9 → window = [1,1,1,1], zeroCount = 2 → ans = 6  
+- i = 10 → window = [...,0], zeroCount = 3 (invalid) → shrink window  
+
+Final Answer:
+6
+
+Time Complexity:
+The time complexity is O(n) because each element enters and leaves the sliding window at most once.
+
+Space Complexity:
+The space complexity is O(1) since only a few variables are used.
+
+This sliding window approach is optimal and commonly used in problems involving subarrays with constraints.
