@@ -3,7 +3,7 @@ public:
     double findMaxAverage(vector<int>& nums, int k) {
         int j = 0;
         double sum = 0.0;
-        double ans = numeric_limits<double>::lowest();
+        double ans = -DBL_MAX;
         for(int i = 0; i < nums.size(); ++i) {
             if(i - j >= k) sum -= nums[j++];
             sum += nums[i];
