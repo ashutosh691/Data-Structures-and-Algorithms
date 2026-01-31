@@ -1,0 +1,53 @@
+# Fruit Into Baskets
+
+The problem is to find the maximum number of fruits that can be collected from a row of fruit trees. Each tree produces exactly one type of fruit, and you are allowed to carry only two baskets. Each basket can hold only one type of fruit, but it can hold an unlimited quantity of that type. You must collect fruits from consecutive trees, moving from left to right without skipping any tree.
+
+In simpler terms, this problem asks for the **length of the longest contiguous subarray that contains at most two distinct values**.
+
+For example, if the input array is `[1, 2, 1, 2, 3]`, the maximum number of fruits you can collect is `4` by choosing the subarray `[1, 2, 1, 2]`.
+
+The intuition behind this solution is to use the **sliding window technique**. We maintain a window that always contains at most two different types of fruits. As we expand the window to the right, we add fruits into a hash map that tracks the frequency of each fruit type inside the window. If the number of distinct fruit types exceeds two, we shrink the window from the left until the condition is satisfied again.
+
+At every step, the size of the valid window represents the number of fruits collected so far, and we keep track of the maximum such value.
+
+The algorithm works as follows. We use two pointers: `j` for the left boundary of the window and `i` for the right boundary. A hash map stores the count of each fruit type in the current window, and a variable `sum` keeps track of the total number of fruits inside the window. When more than two fruit types are present, we move the left pointer forward, reducing counts in the map and removing fruit types whose count becomes zero. After adjusting the window, we update the maximum result.
+
+Pseudocode:
+Initialize an empty hash map  
+Initialize j = 0, ans = 0, sum = 0  
+For i from 0 to n - 1  
+Add fruits[i] to the map  
+Increment sum  
+While map size > 2  
+Decrease count of fruits[j]  
+Decrement sum  
+If count becomes 0, remove it from map  
+Increment j  
+Update ans = max(ans, sum)  
+Return ans  
+
+Dry Run:
+
+Input:
+fruits = [1, 2, 1, 2, 3]
+
+Step-by-step execution:
+
+- i = 0 → window = [1], distinct = 1 → sum = 1 → ans = 1  
+- i = 1 → window = [1,2], distinct = 2 → sum = 2 → ans = 2  
+- i = 2 → window = [1,2,1], distinct = 2 → sum = 3 → ans = 3  
+- i = 3 → window = [1,2,1,2], distinct = 2 → sum = 4 → ans = 4  
+- i = 4 → window = [1,2,1,2,3], distinct = 3 (invalid)  
+  Shrink window from left until distinct = 2  
+  Final window = [2,3] → sum = 2  
+
+Maximum fruits collected:
+4
+
+Time Complexity:
+The time complexity is O(n) because each element is added to and removed from the sliding window at most once.
+
+Space Complexity:
+The space complexity is O(1) since the hash map stores at most 2 fruit types.
+
+This sliding window approach is optimal and widely used in problems that require finding the longest subarray with a limited number of distinct elements.
