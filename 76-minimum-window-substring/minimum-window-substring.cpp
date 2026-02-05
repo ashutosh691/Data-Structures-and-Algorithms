@@ -1,21 +1,20 @@
 class Solution {
 public:
     string minWindow(string s, string t) {
-        if(s.size() < t.size()) return "";
-        string ans = "";
+        if(t.size() > s.size()) return "";
+        int l = 0, r = 0, count = t.size(), dis = INT_MAX, st = 0;
         unordered_map<char, int> mp;
         for(auto i : t) mp[i]++;
-        int left = 0, right = 0, counter = t.size(), dist = INT_MAX, start = 0;
-        while(right < s.size()) {
-            if(mp[s[right++]]-- > 0) counter--;
-            while(counter == 0) {
-                if(right - left < dist) {
-                    start = left;
-                    dist = right - left;
+        while(r < s.size()) {
+            if(mp[s[r++]]-- > 0) count--;
+            while(count == 0) {
+                if(r - l < dis) {
+                    dis = r - l;
+                    st = l;
                 }
-                if(mp[s[left++]]++ == 0) counter++;
+                if(mp[s[l++]]++ == 0) count++;
             }
         }
-        return dist == INT_MAX ? "" : s.substr(start, dist);
+        return dis == INT_MAX ? "" : s.substr(st, dis);
     }
 };
