@@ -11,7 +11,7 @@ public:
         {
             auto[co, ch] = maxHeap.top();
             maxHeap.pop();
-            ans+=string(co, ch);
+            ans += string(co, ch);
         }
 
         return ans;
