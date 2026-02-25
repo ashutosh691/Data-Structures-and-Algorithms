@@ -1,6 +1,6 @@
 class Solution {
 public:
-    inline double distance(int x, int y) { return sqrt((double)x * x + (double)y * y); }  
+    inline double distance(int x, int y) { return 1.0 * x * x + 1.0 * y * y; }  
     vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
         vector<vector<int>> res;
         priority_queue<pair<double, pair<int, int>>> pq;
