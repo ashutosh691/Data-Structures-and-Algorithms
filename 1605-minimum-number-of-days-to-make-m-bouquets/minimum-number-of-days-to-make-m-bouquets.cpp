@@ -1,6 +1,8 @@
 class Solution {
 public:
     int minDays(vector<int>& bloomDay, int m, int k) {
+        long long need = 1LL * m * k;
+        if(need > bloomDay.size()) return -1;
         int start = 1, end = 1e9;
         int ans = -1;
         while(start <= end) {
@@ -15,8 +17,8 @@ public:
                 }
             }
             if(total >= m) {
-                end = mid - 1;
                 ans = mid;
+                end = mid - 1;
             }
             else start = mid + 1;
         }
