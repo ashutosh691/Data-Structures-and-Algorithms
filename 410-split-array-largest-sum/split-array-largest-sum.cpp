@@ -1,8 +1,7 @@
 class Solution {
 public:
     int splitArray(vector<int>& nums, int k) {
-        long long mx = 0, mn = LLONG_MIN;
-        for(auto i : nums) mx += i, mn = max(i * 1LL, mn);
+        long long mx = accumulate(nums.begin(), nums.end(), 1LL), mn = *max_element(nums.begin(), nums.end());
         int ans = -1;
         while(mn <= mx) {
             long long mid = mn + (mx - mn) / 2, temp = 1, sum = 0;
