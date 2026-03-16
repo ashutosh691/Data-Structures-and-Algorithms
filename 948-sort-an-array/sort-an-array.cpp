@@ -1,36 +1,27 @@
 class Solution {
 public:
-
-    void merge(vector<int>& nums, int l, int r, int m) {
-        int s1 = m - l + 1, s2 = r - m;
-        vector<int> t1(s1), t2(s2);
-
-        for(int i = 0; i < s1; ++i) t1[i] = nums[i + l];
-        for(int i = 0; i < s2; ++i) t2[i] = nums[i + m + 1];
-
-        int i = 0, j = 0;
-
-        while(i < s1 && j < s2) 
-            if(t1[i] < t2[j]) nums[l++] = t1[i++];
-            else nums[l++] = t2[j++];
-
-        while(i < s1) nums[l++] = t1[i++];
-        while(j < s2) nums[l++] = t2[j++];
+    int partition(vector<int>& nums, int l, int r) {
+        int random = (rand() % (r - l + 1)) + l;
+        swap(nums[random], nums[r]);
+        int pivot = nums[r];
+        int i = l, j = l - 1;
+        while(i < r) {
+            if(nums[i] < pivot) swap(nums[i], nums[++j]);
+            ++i;
+        }
+        swap(nums[j + 1], nums[r]);
+        return j + 1;
     }
-
-    void mergeSort(vector<int>& nums, int l, int r) {
+    void quickSort(vector<int>& nums, int l, int r) {
         if(l >= r) return;
-        int m = l + (r - l) / 2;
-
-        mergeSort(nums, l, m);
-        mergeSort(nums, m + 1, r);
-        
-        merge(nums, l, r, m);
+        int pivot = partition(nums, l, r);
+        quickSort(nums, l, pivot - 1);
+        quickSort(nums, pivot + 1, r);
     }
-
     vector<int> sortArray(vector<int>& nums) {
+        srand(time(0));
         int n = nums.size();
-        mergeSort(nums, 0, n - 1);
+        quickSort(nums, 0, n - 1);
         return nums;
     }
 };
