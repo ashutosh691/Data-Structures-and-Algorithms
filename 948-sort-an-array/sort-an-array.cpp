@@ -1,27 +1,19 @@
 class Solution {
 public:
-    int partition(vector<int>& nums, int l, int r) {
-        int random = (rand() % (r - l + 1)) + l;
-        swap(nums[random], nums[r]);
-        int pivot = nums[r];
-        int i = l, j = l - 1;
-        while(i < r) {
-            if(nums[i] < pivot) swap(nums[i], nums[++j]);
-            ++i;
-        }
-        swap(nums[j + 1], nums[r]);
-        return j + 1;
-    }
-    void quickSort(vector<int>& nums, int l, int r) {
-        if(l >= r) return;
-        int pivot = partition(nums, l, r);
-        quickSort(nums, l, pivot - 1);
-        quickSort(nums, pivot + 1, r);
-    }
     vector<int> sortArray(vector<int>& nums) {
-        srand(time(0));
         int n = nums.size();
-        quickSort(nums, 0, n - 1);
-        return nums;
+        int shift = 5e4;
+        int mx = 0;
+        for(auto& i : nums) {
+            i += shift;
+            mx = max(mx, i);
+        }
+        vector<int> cf(mx + 1, 0);
+        for(int i = 0; i < n; ++i) cf[nums[i]]++;
+        for(int i = 1; i <= mx; ++i) cf[i] += cf[i - 1];
+        vector<int> res(n);
+        for(int i = n - 1; i >= 0; --i)
+            res[--cf[nums[i]]] = nums[i] - shift;
+        return res;
     }
 };
