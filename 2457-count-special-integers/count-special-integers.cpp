@@ -4,16 +4,17 @@ public:
         string s = to_string(n);
         int d = s.size();
         int ans = 0;
-        for(int len = 1; len < d; ++len) {
-            int count = 9;
-            int avail = 9;
-            for(int i = 1; i < len; ++i) {
-                count *= avail;
-                avail--;
+        int unique = 9;      
+        int available = 9; 
+        for (int len = 1; len < d; ++len) {
+            if (len == 1) {
+                ans += 9;
+            } else {
+                unique *= available;  
+                ans += unique;
+                available--;
             }
-            ans += count;
         }
-
         vector<bool> used(10, false);
 
         for(int i = 0; i < d; ++i) {
