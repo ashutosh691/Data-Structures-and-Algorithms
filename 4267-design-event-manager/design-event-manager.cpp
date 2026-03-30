@@ -28,11 +28,7 @@ public:
         while(!pq.empty()) {
             auto [priority, eventId] = pq.top();
             pq.pop();
-
-            if(latest.find(eventId) == latest.end()) continue;
-
             if(latest[eventId] != priority) continue;
-
             latest.erase(eventId); 
             return eventId;
         }
