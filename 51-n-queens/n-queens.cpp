@@ -1,5 +1,6 @@
 class Solution {
 public:
+    vector<vector<string>> ans;
     bool isSafe(vector<vector<char>>& mat, int& row, int& col, int& n) {
         for(int i = 0; i < n; ++i) //horizontal and vertical
             if(mat[row][i] == 'Q' || mat[i][col] == 'Q') return false;
@@ -9,35 +10,30 @@ public:
             if(mat[i][j] == 'Q') return false;
         return true;
     }
-    void nQueens(vector<vector<string>>& ans, vector<vector<char>>& mat, int& n, int row) {
-        if(row == n) {
+    void nQueens(vector<vector<char>>& mat, int n, int x) {
+        if(x == n) {
             vector<string> temp;
-            string t = "";
             for(int i = 0; i < n; ++i) {
+                string t = "";
                 for(int j = 0; j < n; ++j) {
                     t += mat[i][j];
                 }
-                temp.push_back(t);
-                t = "";
+                temp.emplace_back(t);
             }
-            ans.push_back(temp);
+            ans.emplace_back(temp);
             return;
         }
         for(int i = 0; i < n; ++i) {
-            if(isSafe(mat, row, i, n)) {
-                mat[row][i] = 'Q';
-                nQueens(ans, mat, n, row + 1);
-                mat[row][i] = '.';
+            if(isSafe(mat, x, i, n)) {
+                mat[x][i] = 'Q';
+                nQueens(mat, n, x + 1);
+                mat[x][i] = '.';
             }
         }
     }
     vector<vector<string>> solveNQueens(int n) {
-        vector<vector<string>> ans;
-        vector<vector<char>> mat(n, vector<char>(n));
-        for(int i = 0; i < n; ++i) 
-            for(int j = 0; j < n; ++j)
-                mat[i][j] = '.';
-        nQueens(ans, mat, n, 0);
+        vector<vector<char>> mat(n, vector<char>(n, '.'));
+        nQueens(mat, n, 0);
         return ans;
     }
 };
