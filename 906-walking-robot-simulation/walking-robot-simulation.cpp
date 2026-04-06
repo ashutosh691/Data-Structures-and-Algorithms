@@ -7,7 +7,7 @@ public:
         int ans = 0, x = 0, y = 0;
         int dir = 0;
         for(auto i : commands) {
-            if(i == -2) dir = (dir - 1 + 4) % 4;
+            if(i == -2) dir = (dir + 3) % 4;
             else if(i == -1) dir = (++dir) % 4;
             else {
                 while(i--) {
