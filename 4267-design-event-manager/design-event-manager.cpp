@@ -1,21 +1,19 @@
 class EventManager {
 public:
     struct cmp {
-        bool operator()(pair<int,int>& a, pair<int,int>& b) {
-            if(a.first == b.first)
-                return a.second > b.second; // smaller eventId first
-            return a.first < b.first;       // higher priority first
+        bool operator()(pair<int, int> a, pair<int, int> b) {
+            if(a.first == b.first) return a.second > b.second;
+            return a.first < b.first;
         }
     };
 
-    priority_queue<pair<int,int>, vector<pair<int,int>>, cmp> pq;
-    unordered_map<int, int> latest; 
+    priority_queue<pair<int, int>, vector<pair<int, int>>, cmp> pq;
+    unordered_map<int, int> latest;
 
     EventManager(vector<vector<int>>& events) {
         for(auto& i : events) {
-            int eventId = i[0], priority = i[1];
-            pq.push({priority, eventId});
-            latest[eventId] = priority;
+            pq.push({i[1], i[0]});
+            latest[i[0]] = i[1];
         }
     }
     
@@ -26,12 +24,19 @@ public:
     
     int pollHighest() {
         while(!pq.empty()) {
-            auto [priority, eventId] = pq.top();
+            auto [p, v] = pq.top();
             pq.pop();
-            if(latest[eventId] != priority) continue;
-            latest.erase(eventId); 
-            return eventId;
+            if(p != latest[v]) continue;
+            latest.erase(v);
+            return v;
         }
         return -1;
     }
 };
+
+/**
+ * Your EventManager object will be instantiated and called as such:
+ * EventManager* obj = new EventManager(events);
+ * obj->updatePriority(eventId,newPriority);
+ * int param_2 = obj->pollHighest();
+ */
