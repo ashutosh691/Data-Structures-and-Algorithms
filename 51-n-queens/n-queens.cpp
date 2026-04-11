@@ -1,39 +1,46 @@
 class Solution {
+    vector<vector<string>> res;
+    vector<vector<char>> grid;
 public:
-    vector<vector<string>> ans;
-    bool isSafe(vector<vector<char>>& mat, int& row, int& col, int& n) {
-        for(int i = 0; i < n; ++i) //horizontal and vertical
-            if(mat[row][i] == 'Q' || mat[i][col] == 'Q') return false;
+    bool isSafe(int row, int col, int n) {
+        for(int i = 0; i < row; ++i) //horizontal and vertical
+            if(grid[row][i] == 'Q' || grid[i][col] == 'Q') return false;
+
         for(int i = row, j = col; i >= 0 && j >= 0; --i, --j) //left diagonal
-            if(mat[i][j] == 'Q') return false;
+            if(grid[i][j] == 'Q') return false;
+
         for(int i = row, j = col; i >= 0 && j < n; --i, ++j) //right diagonal
-            if(mat[i][j] == 'Q') return false;
+            if(grid[i][j] == 'Q') return false;
+
         return true;
     }
-    void nQueens(vector<vector<char>>& mat, int n, int x) {
-        if(x == n) {
-            vector<string> temp;
+
+    void nQueens(int in, int n) {
+        if(in == n) {
+            vector<string> st;
+
             for(int i = 0; i < n; ++i) {
-                string t = "";
-                for(int j = 0; j < n; ++j) {
-                    t += mat[i][j];
-                }
-                temp.emplace_back(t);
+                string temp = "";
+                for(int j = 0; j < n; ++j) 
+                    temp += grid[i][j];
+                st.emplace_back(temp);
             }
-            ans.emplace_back(temp);
+
+            res.emplace_back(st);
             return;
         }
-        for(int i = 0; i < n; ++i) {
-            if(isSafe(mat, x, i, n)) {
-                mat[x][i] = 'Q';
-                nQueens(mat, n, x + 1);
-                mat[x][i] = '.';
+
+        for(int i = 0; i < n; ++i) 
+            if(isSafe(in, i, n)) {
+                grid[in][i] = 'Q';
+                nQueens(in + 1, n);
+                grid[in][i] = '.';
             }
-        }
     }
+
     vector<vector<string>> solveNQueens(int n) {
-        vector<vector<char>> mat(n, vector<char>(n, '.'));
-        nQueens(mat, n, 0);
-        return ans;
+        grid.resize(n, vector<char>(n, '.'));
+        nQueens(0, n);
+        return res;
     }
 };
