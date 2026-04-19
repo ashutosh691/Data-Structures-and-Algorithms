@@ -14,8 +14,8 @@ public:
         int ans = INT_MIN, n = nums1.size();
         for(int i = 0; i < n; ++i) {
             int ni = bs(nums2, nums1[i]);
-            if(ni != -1) ans = max(ans, ni - i);
+            if(ni != -1 && ni >= i) ans = max(ans, ni - i);
         }
-        return ans == INT_MIN || ans < 0 ? 0 : ans;
+        return ans == INT_MIN ? 0 : ans;
     }
 };
