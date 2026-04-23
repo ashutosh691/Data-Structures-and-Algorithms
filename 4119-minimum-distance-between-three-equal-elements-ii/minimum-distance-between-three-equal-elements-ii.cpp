@@ -5,7 +5,7 @@ public:
         vector<pair<int, int>> arr(n);
         for(int i = 0; i < n; ++i) arr[i] = {nums[i], i};
         sort(arr.begin(), arr.end());
-        int ans = 1e6;
+        int ans = 1e9;
         int c = 1;
         for(int i = 1; i < n; ++i) {
             if(arr[i].first == arr[i - 1].first) {
@@ -16,6 +16,6 @@ public:
             }
             else c = 1;
         }
-        return ans == 1e6 ? -1 : ans;
+        return ans == 1e9 ? -1 : ans;
     }
 };
