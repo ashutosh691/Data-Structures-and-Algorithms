@@ -14,7 +14,7 @@ public:
         memo.resize(n + 1, vector<int>(n + 1, -1));
         if(n == 0) return 0;
         if(n == 1) return 1;
-        for(int i = 0; i < n; ++i) res = max(res, utils(nums, n, i));
+        for(int i = 1; i < n; ++i) res = max(res, utils(nums, n, i));
         return res;
     }
 };
