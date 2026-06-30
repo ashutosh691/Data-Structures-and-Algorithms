@@ -15,8 +15,8 @@ public:
     int trav(TreeNode* root) {
         if(!root) return 0;
         int l = max(0, trav(root->left)), r = max(0, trav(root->right));
-        int cSum = l + r + root->val;
-        ans = max(ans, cSum);
+        int csum = l + r + root->val;
+        ans = max(ans, csum);
         return max(l, r) + root->val;
     }
     int maxPathSum(TreeNode* root) {
