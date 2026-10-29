@@ -1,19 +1,18 @@
 class Solution {
 public:
-    vector<vector<int>> memo;
+    vector<int> memo;
     int utils(vector<int>& nums, int n, int i) {
-        if(i == 0) return 1;
-        if(memo[n][i] != -1) return memo[n][i];
+        if(!i) return 1;
+        if(memo[i] != -1) return memo[i];
         int res = 1;
-        for(int prev = 0; prev < i; ++prev) 
-            if(nums[prev] < nums[i]) res = max(res, 1 + utils(nums, n, prev));
-        return memo[n][i] = res;
+        for(int j = 0; j < i; ++j) if(nums[j] < nums[i]) res = max(res, 1 + utils(nums, n, j));
+        return memo[i] = res;
     }
     int lengthOfLIS(vector<int>& nums) {
-        int n = nums.size(), res = 1;
-        memo.resize(n + 1, vector<int>(n + 1, -1));
-        if(n == 0) return 0;
-        if(n == 1) return 1;
+        int n = nums.size();
+        if(n == 0 || n == 1) return n;
+        int res = 1;
+        memo.resize(n + 1, -1);
         for(int i = 1; i < n; ++i) res = max(res, utils(nums, n, i));
         return res;
     }
