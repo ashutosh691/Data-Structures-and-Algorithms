@@ -8,6 +8,6 @@ public:
             if(mp.count(find)) return{mp[find], i};
             mp[nums[i]] = i;
         }
-        return {-1, -1};
+        return {-1, 0};
     }
 };
