@@ -1,11 +1,12 @@
 class Solution {
 public:
     int climbStairs(int n, vector<int>& costs) {
-        costs.insert(costs.begin(), 0);  // step 0 is free, step i costs costs[i]
-        vector<int> dp(n + 3, INT_MAX / 2);  // dp[i] = climb(i), the two steps past the top stay inf
-        dp[n] = costs[n];
-        for (int i = n - 1; i >= 0; --i)  // from the top step down
-            dp[i] = costs[i] + min({dp[i + 1] + 1, dp[i + 2] + 4, dp[i + 3] + 9});
-        return dp[0];
+        costs.insert(costs.begin(), 0);
+        int a = costs[n], b = INT_MAX / 2, c = INT_MAX / 2;  // dp[i + 1], dp[i + 2], dp[i + 3] for i = n - 1
+        for (int i = n - 1; i >= 0; --i) {
+            int cur = costs[i] + min({a + 1, b + 4, c + 9});  // dp[i]
+            c = b, b = a, a = cur;
+        }
+        return a;
     }
 };
